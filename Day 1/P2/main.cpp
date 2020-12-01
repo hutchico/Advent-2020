@@ -37,7 +37,7 @@ int main()
             if(i == j)  //Don't add an input to itself
                 break;
             for(int k = 0; k < len; k++){
-                if(j == k || j == i)  //Don't add an input to itself
+                if(j == k || i == k)  //Don't add an input to itself
                     break;
                 else if(expense[i] + expense[j] + expense[k] == 2020){
                     cout << expense[i] << endl << expense[j] << endl << expense[k] << endl;
