@@ -4,17 +4,19 @@ While travel by toboggan might be easy, it's certainly not safe: there's very mi
 
 Due to the local geology, trees in this area only grow on exact integer coordinates in a grid. You make a map (your puzzle input) of the open squares (.) and trees (#) you can see. For example:
 
-`..##.......<br/>
-#...#...#..<br/>
-.#....#..#.<br/>
-..#.#...#.#<br/>
-.#...##..#.<br/>
-..#.##.....<br/>
-.#.#.#....#<br/>
-.#........#<br/>
-#.##...#...<br/>
-#...##....#<br/>
-.#..#...#.#`
+```
+..##.......
+#...#...#..
+.#....#..#.
+..#.#...#.#
+.#...##..#.
+..#.##.....
+.#.#.#....#
+.#........#
+#.##...#...
+#...##....#
+.#..#...#.#
+```
 
 These aren't the only trees, though; due to something you read about once involving arboreal genetics and biome stability, the same pattern repeats to the right many times:
 
