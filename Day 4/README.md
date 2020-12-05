@@ -1,4 +1,4 @@
-#--- Day 4: Passport Processing ---
+# --- Day 4: Passport Processing ---
 
 You arrive at the airport only to realize that you grabbed your North Pole Credentials instead of your passport. While these documents are extremely similar, North Pole Credentials aren't issued by a country and therefore aren't actually valid documentation for travel in most of the world.
 
@@ -65,30 +65,30 @@ You can continue to ignore the cid field, but each other field has strict rules 
 
 Your job is to count the passports where all required fields are both present and valid according to the above rules. Here are some example values:
 
-byr valid:   2002
-byr invalid: 2003
+byr valid:   2002  
+byr invalid: 2003  
 
-hgt valid:   60in
-hgt valid:   190cm
-hgt invalid: 190in
-hgt invalid: 190
+hgt valid:   60in  
+hgt valid:   190cm  
+hgt invalid: 190in  
+hgt invalid: 190  
 
-hcl valid:   #123abc
-hcl invalid: #123abz
-hcl invalid: 123abc
+hcl valid:   #123abc  
+hcl invalid: #123abz  
+hcl invalid: 123abc  
 
-ecl valid:   brn
-ecl invalid: wat
+ecl valid:   brn  
+ecl invalid: wat  
 
-pid valid:   000000001
-pid invalid: 0123456789
+pid valid:   000000001  
+pid invalid: 0123456789  
 
 Here are some invalid passports:
-
+```
 eyr:1972 cid:100
 hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926
 
-iyr:2019
+iyr:2019  
 hcl:#602927 eyr:1967 hgt:170cm
 ecl:grn pid:012533040 byr:1946
 
@@ -98,9 +98,9 @@ ecl:brn hgt:182cm pid:021572410 eyr:2020 byr:1992 cid:277
 hgt:59cm ecl:zzz
 eyr:2038 hcl:74454a iyr:2023
 pid:3556412378 byr:2007
-
+```
 Here are some valid passports:
-
+```
 pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980
 hcl:#623a2f
 
@@ -113,6 +113,6 @@ pid:545766238 ecl:hzl
 eyr:2022
 
 iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719
-
+```
 Count the number of valid passports - those that have all required fields and valid values. Continue to treat cid as optional. 
 In your batch file, how many passports are valid?
