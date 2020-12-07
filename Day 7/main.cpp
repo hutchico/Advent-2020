@@ -15,27 +15,47 @@ struct bag{
     vector<string> children;
 };
 
-
-//Future reference idea: Start at shiny gold, work outward.
-bool containsGold(string target, vector<bag> inputs){
-    int calls_to_make = 0;
-    int index;
-    for(int i = 0; i < inputs.size(); i++){ //Find the index for our target
-        if(inputs[i].name == target){
-            index = i;
-            break;
+//Turns out recursion isn't 100% necessary for part 1
+int better_containsGold(vector<string> &names, vector<bag> inputs){
+    for(int i = 0; i < names.size(); i++){
+        for(int j = 0; j < inputs.size(); j++){
+            for(int k = 0; k < inputs[j].children.size(); k++){
+                if(inputs[j].children[k] == names[i]){
+                    for(int l = 0; l < names.size(); l++){
+                        if(inputs[j].name == names[l]){
+                            break;
+                        }
+                        else if(l == names.size() - 1)
+                            names.push_back(inputs[j].name);
+                    }
+                    break;
+                }
+            }
         }
     }
+    return names.size();
+}
+
+bool containsGold(string target, vector<bag> inputs, int index){
+    int calls_to_make = 0;
+    int childIndex = 0;
 
     if(inputs[index].contentsNo.size() == 0){    //This bag is empty and is not shiny gold
-        return false;                               //Shiny gold bags for my personal input set are not empty
+        return false;                               //Shiny gold bags are not empty
     }
 
     calls_to_make = inputs[index].contentsNo.size();
+    //This is the worst part of this code, runs the full list multiple times in every function call
     for(int i = 0; i < calls_to_make; i++){
+        for(int j = 0; j < inputs.size(); j++){ //Find the index for target child bag
+            if(inputs[j].name == inputs[index].children[i]){
+                childIndex = j;
+                break;
+            }
+        }
         if(inputs[index].children[i] == "shiny gold")
             return true;
-        if(containsGold(inputs[index].children[i],inputs))
+        if(containsGold(inputs[index].children[i],inputs,childIndex))
             return true;
     }
     return false;
@@ -69,6 +89,7 @@ int main()
     std::stringstream ss;
     vector<bag> rules;
     vector<string> contents;
+    vector<string> containsShinyGold;
     struct bag input;
     string buffer;
     string bagname;
@@ -114,24 +135,35 @@ int main()
     }
     file.close();
 
-    ///NOTE: This first function for part 1 takes approximately 2 minutes to run.
-    ///It is incredibly inefficient! Keep commented unless verifying part 1.
-    /*
+    //Keep this commented, it's there for posterity but is worse than the later solution.
+/*
     for(int i = 0; i < rules.size(); i++){
-        if(containsGold(rules[i].name,rules))
+        cout << rules[i].name << endl;
+        if(containsGold(rules[i].name,rules,i))
             goldBags++;
     }
 
     cout << goldBags << endl << endl;
-    */
+*/
+
+    //Second attempt is much better but works largely by accident.
+    for(int i = 0; i < rules.size(); i++){
+        for(int j = 0; j < rules[i].contentsNo.size(); j++){
+            if(rules[i].children[j] == "shiny gold"){
+                containsShinyGold.push_back(rules[i].name);
+                break;
+            }
+        }
+    }
+
+    cout << better_containsGold(containsShinyGold,rules) << endl;
+
     for(int i = 0; i < rules.size(); i++){
         if(rules[i].name == "shiny gold"){
             goldIndex = i;
             break;
         }
     }
-
-    goldBags = 0;
 
     for(int i = 0; i < rules[goldIndex].contentsNo.size(); i++){
         goldBags += rules[goldIndex].contentsNo[i] * goldContents(rules[goldIndex].children[i],rules);
