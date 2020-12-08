@@ -74,19 +74,5 @@ int main()
         }
     }
 
-    //Now to reverse the code starting from the end to determine where
-    while(true){
-        current_instruction = commands.size() - 1;
-        for(int i = commands.size() - 1; i == 0; i--){
-            std::stringstream().swap(ss);
-            ss.str(commands[i]);
-            getline(ss,buffer,' ');
-            if(commands[i][0] != 'j')
-                continue;
-            else
-
-        }
-    }
-
     return 0;
 }
