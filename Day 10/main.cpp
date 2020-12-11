@@ -23,16 +23,14 @@ int main()
     node single;
     std::ifstream file;
     string buffer;
-    unordered_map<int,int> memo;
+    unordered_map<int,long long> memo;
     int deviceRating;
-    int oneDiff = 0;
-    int threeDiff = 1; //Start at 1 for the jump out of adapters
-    int mappedVal = 0;
-    long comb;
+    int oneDiff = 1;    //Start at 1 for the jump out of/into adapters
+    int threeDiff = 1;
+    bool found = false;
 
 
-    jolts.push_back(0);
-    file.open("modinput.txt");
+    file.open("input.txt");
     while(true){
         getline(file,buffer);
         if(buffer == "")
@@ -45,9 +43,7 @@ int main()
     deviceRating = jolts[jolts.size()-1] + 3;
 
     for(int i = 0; i < jolts.size(); i++){
-        //cout << jolts[i] << " " << jolts[i+1] << endl;
         if(i == jolts.size()){  //Different procedure for the last element and the device
-            //threeDiff++;    //always a difference of three
             break;
         }
         if(jolts[i+1] - jolts[i] == 1)
@@ -125,20 +121,54 @@ int main()
                 adapters[i].previous.push_back(&adapters[i-3]);
             }
         }
-
-        //cout << adapters[i].value << " " << adapters[i].next.size() << endl;
     }
-        //cout << adapters[adapters.size()-1].value << " " << adapters[adapters.size()-1].next.size() << endl;
 
+    if(adapters[0].value <= 3 && adapters[0].previous.size() == 0){
+        adapters[0].previous.resize(1);
+    }
+    if(adapters[1].value <= 3 && adapters[1].previous.size() < 2){
+        adapters[1].previous.resize(2);
+    }
+    if(adapters[2].value <= 3 && adapters[2].previous.size() < 3){
+        adapters[2].previous.resize(3);
+    }
 
+    memo[0] = 1;
 
+    for(int i = 1; i < 4; i++){
+        for(int j = 0; j < 3; j++){
+            if(adapters[j].value == i){
+                memo[i] = adapters[j].previous.size();
+                found = true;
+                break;
+            }
+        }
+        if(!found){
+            memo[i] = 0;
+        }
+        found = false;
+    }
 
+    for(int i = 3; i < deviceRating; i++){
+        for(int j = 0; j < adapters.size(); j++){
+            if(j > i){
+                found = false;
+                break;
+            }
+            if(i == adapters[j].value){
+                found = true;
+                break;
+            }
+        }
+        if(!found){
+            memo[i] = 0;
+            continue;
+        }
+        memo[i] = memo.at(i-1) + memo.at(i-2) + memo.at(i-3);
+        found = false;
+    }
 
-
-
-    //cout << memo.at(adapters.size()-1) << endl;
-
-
+    cout << memo.at(adapters[adapters.size()-1].value) << endl << endl;
 
     return 0;
 }
