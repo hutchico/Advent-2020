@@ -64,8 +64,6 @@ int main()
                 rel_y += mag * wayp_y;
                 break;
         }
-        cout << rel_x << " " << rel_y << " " << wayp_x << " " << wayp_y;
-        cout << endl;
     }
 
     cout << abs(rel_x) + abs(rel_y) << endl;
