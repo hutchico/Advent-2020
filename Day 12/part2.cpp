@@ -59,7 +59,7 @@ int main()
                     wayp_y = -1 * middle;
                 }
                 break;
-            default:
+            case 'F': 
                 rel_x += mag * wayp_x;
                 rel_y += mag * wayp_y;
                 break;
