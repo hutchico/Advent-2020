@@ -7,19 +7,20 @@ using std::string;
 using std::cout;
 using std::endl;
 
+#define DECAY_CONST 4
+
 int change_room(vector<string> &room, vector<vector<char>> &changes){
     int total = 0;
     int adjacent = 0;
     for(int i = 0; i < room.size(); i++){
         for(int j = 0; j < room[0].size(); j++){
-            //cout << i << " " << j << " " << room[0].size() << " " << room.size() << endl;
             if(room[i][j] == 'L'){  //Seat is empty
                 //Start by catching edge cases
                 if(i == room.size() - 1 && j == room[0].size() - 1){   //Bottom right corner case
                     if(room[i-1][j] == '#' || room[i][j-1] == '#' || room[i-1][j-1] == '#')
                         continue;
                     else{
-                        changes[i][j] = '1'; //This seat will be flipped to on
+                        changes[i][j] = '1';
                         total++;
                     }
                 }
@@ -27,7 +28,7 @@ int change_room(vector<string> &room, vector<vector<char>> &changes){
                     if(room[i-1][j] == '#' || room[i][j+1] == '#' || room[i-1][j+1] == '#')
                         continue;
                     else{
-                        changes[i][j] = '1'; //This seat will be flipped to on
+                        changes[i][j] = '1';
                         total++;
                     }
                 }
@@ -35,7 +36,7 @@ int change_room(vector<string> &room, vector<vector<char>> &changes){
                     if(room[i+1][j] == '#' || room[i][j-1] == '#' || room[i+1][j-1] == '#')
                         continue;
                     else{
-                        changes[i][j] = '1'; //This seat will be flipped to on
+                        changes[i][j] = '1';
                         total++;
                     }
                 }
@@ -43,7 +44,7 @@ int change_room(vector<string> &room, vector<vector<char>> &changes){
                     if(room[i+1][j] == '#' || room[i][j+1] == '#'|| room[i+1][j+1] == '#')
                         continue;
                     else{
-                        changes[i][j] = '1'; //This seat will be flipped to on
+                        changes[i][j] = '1';
                         total++;
                     }
                 }
@@ -53,7 +54,7 @@ int change_room(vector<string> &room, vector<vector<char>> &changes){
                     if(room[i+1][j] == '#' || room[i][j+1] == '#' || room[i][j-1] == '#' || room[i+1][j-1] == '#' || room[i+1][j+1] == '#')
                         continue;
                     else{
-                        changes[i][j] = '1'; //This seat will be flipped to on
+                        changes[i][j] = '1';
                         total++;
                     }
                 }
@@ -61,7 +62,7 @@ int change_room(vector<string> &room, vector<vector<char>> &changes){
                     if(room[i-1][j] == '#' || room[i][j+1] == '#' || room[i+1][j] == '#' || room[i-1][j+1] == '#' || room[i+1][j+1] == '#')
                         continue;
                     else{
-                        changes[i][j] = '1'; //This seat will be flipped to on
+                        changes[i][j] = '1';
                         total++;
                     }
                 }
@@ -69,7 +70,7 @@ int change_room(vector<string> &room, vector<vector<char>> &changes){
                     if(room[i-1][j] == '#' || room[i+1][j] == '#' || room[i][j-1] == '#' || room[i-1][j-1] == '#' || room[i+1][j-1] == '#')
                         continue;
                     else{
-                        changes[i][j] = '1'; //This seat will be flipped to on
+                        changes[i][j] = '1';
                         total++;
                     }
                 }
@@ -77,7 +78,7 @@ int change_room(vector<string> &room, vector<vector<char>> &changes){
                     if(room[i-1][j] == '#' || room[i][j+1] == '#' || room[i][j-1] == '#' || room[i-1][j+1] == '#' || room[i-1][j-1] == '#')
                         continue;
                     else{
-                        changes[i][j] = '1'; //This seat will be flipped to on
+                        changes[i][j] = '1';
                         total++;
                     }
                 }
@@ -86,7 +87,7 @@ int change_room(vector<string> &room, vector<vector<char>> &changes){
                 else if(room[i-1][j] == '#' || room[i][j+1] == '#' || room[i][j-1] == '#' || room[i+1][j] == '#' || room[i-1][j-1] == '#' || room[i+1][j+1] == '#' || room[i+1][j-1] == '#' || room[i-1][j+1] == '#')
                     continue;
                 else{
-                        changes[i][j] = '1'; //This seat will be flipped to on
+                        changes[i][j] = '1';
                         total++;
                     }
             }
@@ -118,7 +119,7 @@ int change_room(vector<string> &room, vector<vector<char>> &changes){
                     if(i != room.size() - 1 && j != room[0].size() - 1 && room[i+1][j+1] == '#')
                         adjacent++;
 
-                    if(adjacent >= 4){
+                    if(adjacent >= DECAY_CONST){
                         changes[i][j] = '0';
                         total++;
                     }
@@ -163,10 +164,9 @@ int main()
     vector<vector<char>> changes;
     vector<vector<char>> templ;
     vector<char> stage1;
-    int round = 0;
-    int changed = 0;
     string user;
     string buffer;
+    int changed = 0;
 
     file.open("input.txt");
     while(true){
@@ -184,7 +184,6 @@ int main()
     }
     templ = changes; //Store this so we can reset the change array between rounds
     while(true){
-        round++;
         changed = change_room(room,changes);
         cout << endl << "Changed tiles: " << changed << endl;
 

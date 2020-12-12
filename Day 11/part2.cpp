@@ -10,12 +10,11 @@ using std::endl;
 #define DECAY_CONST 5
 
 char find_seat(int x, int y, vector<string> room, int direction){
-    //8 possible configurations of this function for each diagonal
+    //tried to use a switch case here but c++ apparently doesn't support nesting loop constructs
     //'direction' parameter specifies a numpad durection, where 1 is bottom left, 9 is top right.
 
     int ymax = room.size();
     int xmax = room[0].size();
-
     int xref = x;
     int yref = y;
 
@@ -96,14 +95,12 @@ char find_seat(int x, int y, vector<string> room, int direction){
             }
         }
 
-    return 'L';
+    return 'L'; //The point of this function is checking for occupied seats; if a seat isn't found, it's effectively empty.
 }
 
 int change_room(vector<string> &room, vector<vector<char>> &changes){
     int total = 0;
     int adjacent = 0;
-    int xref;
-    int yref;
     for(int i = 0; i < room.size(); i++){
         for(int j = 0; j < room[0].size(); j++){
             if(room[i][j] == 'L'){  //Seat is empty
@@ -175,11 +172,11 @@ int change_room(vector<string> &room, vector<vector<char>> &changes){
                     }
                 }
 
-                //Now general case for anything not on the edge
+                //Now general case for anything not on an edge
                 else if(find_seat(j-1,i+1,room,1) == '#' || find_seat(j,i+1,room,2) == '#' || find_seat(j+1,i+1,room,3) == '#' || find_seat(j-1,i,room,4) == '#' || find_seat(j+1,i,room,6) == '#' || find_seat(j-1,i-1,room,7) == '#' || find_seat(j,i-1,room,8) == '#' || find_seat(j+1,i-1,room,9) == '#')
                     continue;
                 else{
-                        changes[i][j] = '1'; //This seat will be flipped to on
+                        changes[i][j] = '1';
                         total++;
                     }
 
@@ -194,6 +191,7 @@ int change_room(vector<string> &room, vector<vector<char>> &changes){
                     continue;
                 else if(i == room.size() - 1  && j == 0)
                     continue;
+
                 else{
                     if(find_seat(j-1,i-1,room,7) == '#')
                         adjacent++;
@@ -221,7 +219,7 @@ int change_room(vector<string> &room, vector<vector<char>> &changes){
             }
         }
     }
-
+    //Update the room in accordance with which seats should have been changed
     for(int i = 0; i < changes.size(); i++){
         for(int j = 0; j < changes[0].size(); j++){
             if(changes[i][j] == '1')
@@ -259,10 +257,9 @@ int main()
     vector<vector<char>> changes;
     vector<vector<char>> templ;
     vector<char> stage1;
-    int round = 0;
-    int changed = 0;
     string user;
     string buffer;
+    int changed = 0;
 
     file.open("input.txt");
     while(true){
@@ -280,7 +277,6 @@ int main()
     }
     templ = changes; //Store this so we can reset the change array between rounds
     while(true){
-        round++;
         changed = change_room(room,changes);
         cout << endl << "Changed tiles: " << changed << endl;
 
