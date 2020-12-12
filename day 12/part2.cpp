@@ -15,7 +15,7 @@ int main()
     vector<string> commands;
     char direction;
     int mag = 0;
-    int num_rotations = 0;    //East -> 0
+    int num_rotations = 0;
     int rel_x = 0;
     int rel_y = 0;
     int middle = 0;
