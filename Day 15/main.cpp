@@ -18,9 +18,9 @@ int main()
     unordered_map<int,int> occ;       //number of times this number has occured
     unordered_map<int,int> turn_last; //the last turn this number was encountered on
     int input;
-
     int turn = 1;
-    int previous = 0;
+    int loc;
+    int previous;
 
     //0,1,5,10,3,12,19
 
@@ -40,21 +40,23 @@ int main()
         getline(ss,buffer,',');
     }
     occ[input] = 0; //reset assignment for most recent input
-    previous = turn - 1;
+    turn--;
 
-    while(mem.size() < 30000001){
-        if(occ[mem[previous-1]] > 0){   //check if number is new
-            mem.push_back(previous - turn_last[mem[previous-1]]);
-            occ[mem[previous-1]] = occ[mem[previous-1]] + 1;
-            turn_last[mem[previous-1]] = previous;
+    while(mem.size() < 30000000){
+        previous = mem[turn-1];
+        loc = occ[previous];
+
+        if(loc > 0){   //check if number is new
+            mem.push_back(turn - turn_last[previous]);
+            occ[previous] = loc + 1;
+            turn_last[previous] = turn;
         }
         else{
             mem.push_back(0);
-            occ[mem[previous-1]] = 1;
-            turn_last[mem[previous-1]] = previous;
+            occ[previous] = 1;
+            turn_last[previous] = turn;
 
         }
-        previous = turn;
         turn++;
     }
 
