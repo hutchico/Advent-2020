@@ -20,8 +20,11 @@ int get_neighbors(vector<vector<vector<string>>> cube, int w, int x, int y, int 
                         continue;
                     if(i == w && j == y && k == z && l == x) //don't count the cell itself
                         continue;
-                    else if(cube[i][j][k][l] == '#')
+                    else if(cube[i][j][k][l] == '#'){
                         neighbors++;
+                        if(neighbors >= 4)
+                            return neighbors;
+                    }
                 }
             }
         }
@@ -105,20 +108,19 @@ int main()
 {
     std::ifstream file;
     string buffer;
-    vector<vector<vector<string>>> conway; //
-    vector<vector<string>> hyper;
-    vector<string> cubeLayer;
-
+    vector<string> layer;
+    vector<vector<string>> box;
+    vector<vector<vector<string>>> conway;
 
     file.open("input.txt");
     while(true){
         getline(file,buffer);
         if(buffer == "")
             break;
-        cubeLayer.push_back(buffer);
+        layer.push_back(buffer);
     }
-    hyper.push_back(cubeLayer);
-    conway.push_back(hyper);
+    box.push_back(layer);
+    conway.push_back(box);
 
     //first layer assembled, time to simulate
     //this isn't a cube! it's more of a box, the sides will not necessarily be the same length.

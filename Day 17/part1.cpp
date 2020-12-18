@@ -12,21 +12,21 @@ using namespace std;
 
 int get_neighbors(vector<vector<string>> cube, int x, int y, int z){
     int neighbors = 0;
-    //cout << y << z << x << endl;
     for(int i = y - 1; i < y + 2; i++){
         for(int j = z - 1; j < z + 2; j++){
             for(int k = x - 1; k < x + 2; k++){
-                //cout << i << j << k << endl;
                 if(i < 0 || j < 0 || k < 0 || i > cube.size() - 1 || j > cube[i].size() - 1 || z > cube[i][j].size() - 1) //out of bounds checking
                     continue;
                 if(i == y && j == z && k == x) //don't count the cell itself
                     continue;
-                else if(cube[i][j][k] == '#')
+                else if(cube[i][j][k] == '#'){
                     neighbors++;
+                    if(neighbors >= 4)
+                        return neighbors;
+                }
             }
         }
     }
-    //cout << neighbors << endl;
     return neighbors;
 };
 
@@ -63,10 +63,14 @@ void print_box(vector<vector<string>> cube){   //DEBUG: Verify cube state
 
 void grow_box(vector<vector<string>> &cube){
     int newX = cube[0].size() + 2; //The central layer is a square and we're just adding a blank layer on top/bottom
+
     string blank = ".";
     vector<string> newlayer;
+
     for(int i = 1; i < newX; i++)
         blank.push_back('.');
+    for(int i = 0; i < newX; i++)
+        newlayer.push_back(blank);
 
     for(int i = 0; i < cube.size(); i++){
         for(int j = 0; j < cube[i].size(); j++){
@@ -76,9 +80,6 @@ void grow_box(vector<vector<string>> &cube){
         cube[i].insert(cube[i].begin(),blank);
         cube[i].push_back(blank);
     }
-    for(int i = 0; i < newX; i++)
-        newlayer.push_back(blank);
-
     cube.insert(cube.begin(),newlayer);
     cube.push_back(newlayer);
 }
@@ -133,7 +134,7 @@ int main()
 
     print_box(conway);
     grow_box(conway);
-    cout << "active cubes: " << count_active_cubes(conway) << endl;
+    cout << "starting active cubes: " << count_active_cubes(conway) << endl;
     for(int i = 0; i < 6; i++){
         iterate_cycle(conway);
         grow_box(conway);
