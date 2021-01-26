@@ -18,7 +18,6 @@ long long resolve_eq(string &line){
     long long li = 0;
     char input = '@'; //initialize char for while loop
     char op = '*';
-    //cout << line << endl;
     if(line[0] != 'n'){
         ri = (long long)(line[0] - 48);
         line.erase(0,1);
@@ -27,19 +26,13 @@ long long resolve_eq(string &line){
         line.erase(0,1);
         ri = resolve_eq(line);
     }
-    //cout << ri << endl;
-
-    //cout << line << endl;
     while(input != 'd' && line.size() > 0){
         input = line[0];
-        //cout << input << endl;
         line.erase(0,1);
-        //cout << line << endl;
         if(input == 'd')
             break;
         op = input;
         input = line[0];
-        //cout << input << endl;
         line.erase(0,1);
         if(input == 'n'){
             li = resolve_eq(line);
@@ -47,19 +40,13 @@ long long resolve_eq(string &line){
         else{
             li = (long long)(input - 48);
         }
-        //cout << ri << " " << li << endl;
         if(op == '+'){
-            //cout << "--" << ri << endl;
             ri = ri + li;
-            //cout << "---" << ri << endl;
         }
         else{
-            //cout << "__" << ri << endl;
             ri = ri * li;
-            //cout << "___" << ri << endl;
         }
     }
-
     return ri;
 }
 
